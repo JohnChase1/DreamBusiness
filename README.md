@@ -1,12 +1,10 @@
 - 👋 Hi, I’m @JohnChase
-- 👀 I’m interested in crypto.
+- 👀 I’m interested in business and web apps.
 - 🌱 I’m currently learning nodes
-- 💞️ I’m looking to collaborate on crypto
-- 📫 How to reach me twitter
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
+- 💞️ I’m looking to collaborate on business and web apps.
+
 
 <!---
-DavidMinter1/DavidMinter1 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+JohnChase/DreamBusiness is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 You can click the Preview link to take a look at your changes.
 --->
