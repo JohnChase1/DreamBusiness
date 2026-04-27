@@ -1,4 +1,4 @@
-- 👋 Hi, I’m @JohnChase
+- 👋 Hi, I’m John
 - 👀 I’m interested in business and web apps.
 - 🌱 I’m currently learning nodes
 - 💞️ I’m looking to collaborate on business and web apps.
