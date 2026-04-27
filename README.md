@@ -1,4 +1,4 @@
-- 👋 Hi, I’m @DavidMinter1
+- 👋 Hi, I’m @JohnChase
 - 👀 I’m interested in crypto.
 - 🌱 I’m currently learning nodes
 - 💞️ I’m looking to collaborate on crypto
