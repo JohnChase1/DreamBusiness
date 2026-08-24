@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Founder Voice Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Playfair+Display:ital@0;1&family=DM+Sans:wght@400;500&display=swap">
+<style>
+  :root {
+    --db-navy: #0B2242;
+    --db-gold: #C9A66B;
+    --db-white: #FFFFFF;
+    --db-sand: #F6F3EE;
+    --db-gray: #AAB2BD;
+    --db-ink-soft: #3D5170;
+    --db-error: #B0443C;
+
+    --font-heading: 'Montserrat', sans-serif;
+    --font-accent: 'Playfair Display', serif;
+    --font-body: 'DM Sans', 'Lato', sans-serif;
+
+    --space-xs: 8px;
+    --space-sm: 16px;
+    --space-md: 24px;
+    --space-lg: 48px;
+
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --maxwidth-content: 720px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: var(--db-sand); }
+  body {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--db-navy);
+  }
+
+  .topbar {
+    background: var(--db-navy);
+    color: var(--db-white);
+    padding: 14px var(--space-sm);
+  }
+  .topbar-inner {
+    max-width: var(--maxwidth-content);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+  }
+  .wordmark {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.02em;
+  }
+  .wordmark span { color: var(--db-gold); }
+  .mock-badge {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1px solid var(--db-gold);
+    color: var(--db-gold);
+    border-radius: var(--radius-sm);
+    padding: 4px 8px;
+    white-space: nowrap;
+  }
+
+  .steps {
+    background: var(--db-white);
+    border-bottom: 1px solid rgba(11,34,66,0.10);
+  }
+  .steps-inner {
+    max-width: var(--maxwidth-content);
+    margin: 0 auto;
+    display: flex;
+  }
+  .step-tab {
+    flex: 1;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--db-gray);
+    padding: 14px 4px;
+    cursor: pointer;
+    min-height: 44px;
+  }
+  .step-tab.active { color: var(--db-navy); border-bottom-color: var(--db-gold); }
+  .step-tab .num { color: var(--db-gold); margin-right: 4px; }
+
+  main { max-width: var(--maxwidth-content); margin: 0 auto; padding: var(--space-md) var(--space-sm) 80px; }
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  h1 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.25;
+    margin-bottom: 6px;
+  }
+  .sub { color: var(--db-ink-soft); font-size: 15px; margin-bottom: var(--space-md); max-width: 40em; }
+
+  .card {
+    background: var(--db-white);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    margin-bottom: var(--space-sm);
+    box-shadow: 0 1px 3px rgba(11,34,66,0.08);
+  }
+  .card h2 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: var(--space-sm);
+  }
+  .sample-note {
+    font-size: 12px;
+    color: var(--db-gray);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-sm);
+  }
+
+  label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--db-navy);
+    margin-bottom: 6px;
+  }
+  .field { margin-bottom: var(--space-sm); }
+  input[type="text"], textarea, select {
+    width: 100%;
+    background: var(--db-white);
+    border: 1.5px solid var(--db-gray);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    font-family: var(--font-body);
+    font-size: 16px;
+    color: var(--db-navy);
+  }
+  textarea { min-height: 120px; resize: vertical; }
+  input:focus, textarea:focus, select:focus { outline: none; border-color: var(--db-navy); }
+  .hint { font-size: 13px; color: var(--db-ink-soft); margin-top: 6px; }
+
+  .btn {
+    display: inline-block;
+    background: var(--db-gold);
+    color: var(--db-navy);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 15px;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 14px 28px;
+    cursor: pointer;
+    min-height: 44px;
+  }
+  .btn:hover { background: #B8965D; }
+  .btn-secondary {
+    background: transparent;
+    border: 1.5px solid var(--db-navy);
+    color: var(--db-navy);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 13px;
+    border-radius: var(--radius-sm);
+    padding: 10px 16px;
+    cursor: pointer;
+    min-height: 44px;
+  }
+
+  .photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-xs); }
+  .photo-slot {
+    aspect-ratio: 1;
+    background: var(--db-sand);
+    border: 1.5px dashed var(--db-gray);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: var(--db-gray);
+    text-align: center;
+    padding: 4px;
+  }
+  .photo-slot.filled { border-style: solid; background: #E4DDD1; color: var(--db-ink-soft); }
+
+  .profile-summary { border-left: 2px solid var(--db-gold); padding-left: var(--space-sm); }
+  .profile-summary p { font-size: 14.5px; color: var(--db-ink-soft); margin-bottom: 8px; }
+  .profile-summary p strong { color: var(--db-navy); font-weight: 500; }
+
+  .toggle-row { display: flex; gap: var(--space-xs); margin-bottom: var(--space-sm); flex-wrap: wrap; }
+  .toggle {
+    background: var(--db-white);
+    border: 1.5px solid var(--db-gray);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--db-ink-soft);
+    padding: 10px 14px;
+    cursor: pointer;
+    min-height: 44px;
+  }
+  .toggle.on { border-color: var(--db-navy); color: var(--db-navy); background: var(--db-sand); }
+
+  .check-row { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+  .check-pill {
+    display: flex; align-items: center; gap: 8px;
+    border: 1.5px solid var(--db-gray);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    min-height: 44px;
+    background: var(--db-white);
+  }
+  .check-pill input { width: auto; accent-color: #0B2242; }
+
+  .platform-tabs { display: flex; gap: var(--space-xs); margin-bottom: var(--space-sm); flex-wrap: wrap; }
+  .ptab {
+    background: var(--db-white);
+    border: 1.5px solid var(--db-gray);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--db-ink-soft);
+    padding: 10px 14px;
+    cursor: pointer;
+    min-height: 44px;
+  }
+  .ptab.active { background: var(--db-navy); border-color: var(--db-navy); color: var(--db-white); }
+  .ppanel { display: none; }
+  .ppanel.active { display: block; }
+
+  .draft-text { font-size: 15px; color: var(--db-navy); white-space: pre-line; margin-bottom: var(--space-sm); }
+  .draft-meta {
+    display: flex; justify-content: space-between; align-items: center; gap: var(--space-sm);
+    border-top: 1px solid rgba(11,34,66,0.10);
+    padding-top: var(--space-sm);
+    flex-wrap: wrap;
+  }
+  .why {
+    font-size: 13px;
+    color: var(--db-ink-soft);
+    background: var(--db-sand);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    margin-bottom: var(--space-sm);
+  }
+  .why strong { font-weight: 500; color: var(--db-navy); }
+  .format-note { font-size: 13px; color: var(--db-gray); margin-bottom: var(--space-sm); }
+
+  .quote-card {
+    background: var(--db-navy);
+    border-radius: var(--radius-md);
+    aspect-ratio: 1;
+    max-width: 340px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: var(--space-sm);
+  }
+  .quote-card .rule { width: 40px; height: 2px; background: var(--db-gold); }
+  .quote-card blockquote {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-size: 21px;
+    line-height: 1.45;
+    color: var(--db-white);
+  }
+  .quote-card .attr {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--db-gold);
+  }
+
+  .footer-nav {
+    display: flex; justify-content: space-between; gap: var(--space-sm);
+    margin-top: var(--space-md);
+  }
+  .copied { font-size: 13px; color: var(--db-ink-soft); }
+
+  footer.legal {
+    background: var(--db-navy);
+    color: var(--db-gray);
+    font-size: 12px;
+    padding: var(--space-md) var(--space-sm);
+    text-align: center;
+  }
+  footer.legal a { color: var(--db-gray); }
+
+  @media (min-width: 768px) {
+    main { padding-top: var(--space-lg); }
+    h1 { font-size: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="wordmark">Founder<span>Voice</span></div>
+    <div class="mock-badge">Concept mockup · sample data</div>
+  </div>
+</div>
+
+<div class="steps">
+  <div class="steps-inner">
+    <button class="step-tab active" data-screen="voice"><span class="num">1</span>Your voice</button>
+    <button class="step-tab" data-screen="input"><span class="num">2</span>Your input</button>
+    <button class="step-tab" data-screen="drafts"><span class="num">3</span>Your drafts</button>
+  </div>
+</div>
+
+<main>
+
+  <!-- SCREEN 1: VOICE -->
+  <section class="screen active" id="screen-voice">
+    <h1>Set up your voice once</h1>
+    <p class="sub">Answer a few questions and paste writing that already sounds like you. Every draft the tool produces will be measured against this profile.</p>
+
+    <div class="card">
+      <div class="sample-note">Pre-filled with an illustrative example founder</div>
+      <h2>About you and your audience</h2>
+      <div class="field">
+        <label for="f-business">What your business does, in one sentence</label>
+        <input id="f-business" type="text" value="Monthly bookkeeping for solo consultants and freelancers in Germany.">
+      </div>
+      <div class="field">
+        <label for="f-audience">Who you want to reach</label>
+        <input id="f-audience" type="text" value="Freelancers earning 60k to 150k who still do their own books.">
+      </div>
+      <div class="field">
+        <label for="f-tone">Three words for how you want to sound</label>
+        <input id="f-tone" type="text" value="Calm, precise, practical.">
+      </div>
+      <div class="field">
+        <label for="f-taboo">Things you never say or do</label>
+        <input id="f-taboo" type="text" value="No tax advice promises, no scare tactics, no emojis.">
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Paste writing that sounds like you</h2>
+      <div class="field">
+        <label for="f-samples">Two or three posts, emails, or paragraphs you have written</label>
+        <textarea id="f-samples">Most of my clients come to me in November. The smart ones come in March. Same fee, very different year. (Sample text for illustration.)</textarea>
+        <p class="hint">The more real writing you paste, the closer the drafts will sound to you.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Your photo library</h2>
+      <p class="hint" style="margin-bottom: 16px;">Upload photos you own or have licensed. Visuals are composed from these, so your feed stays consistent. Nothing is generated by AI.</p>
+      <div class="photo-grid">
+        <div class="photo-slot filled">Workspace photo (sample)</div>
+        <div class="photo-slot filled">Portrait photo (sample)</div>
+        <div class="photo-slot filled">Detail photo (sample)</div>
+        <div class="photo-slot">Add photo</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Your voice profile</h2>
+      <div class="profile-summary">
+        <p><strong>Sounds like:</strong> a calm specialist who leads with numbers and lets contrasts do the work. Short sentences carry the point.</p>
+        <p><strong>Avoids:</strong> hype, urgency, emojis, promises about outcomes.</p>
+        <p><strong>Goal:</strong> authority with freelancers, leading to discovery calls.</p>
+      </div>
+    </div>
+
+    <div class="footer-nav">
+      <span></span>
+      <button class="btn" data-goto="input">Continue to your input</button>
+    </div>
+  </section>
+
+  <!-- SCREEN 2: INPUT -->
+  <section class="screen" id="screen-input">
+    <h1>Give it something to work with</h1>
+    <p class="sub">A brain dump, a pasted article, or a rough idea. Unpolished is fine, that is the point.</p>
+
+    <div class="card">
+      <h2>What are you starting from</h2>
+      <div class="toggle-row">
+        <button class="toggle on">Brain dump</button>
+        <button class="toggle">Pasted article</button>
+        <button class="toggle">Rough idea</button>
+      </div>
+      <div class="field">
+        <label for="f-dump">Your brain dump</label>
+        <textarea id="f-dump" style="min-height: 160px;">every autumn the panic clients arrive, shoebox of receipts, VAT deadline stress... the spring clients never have this problem, they pay the same monthly fee but get planning instead of firefighting... maybe something about how the best time to fix your books is when nothing is wrong (sample input for illustration)</textarea>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Where should this go</h2>
+      <div class="check-row">
+        <label class="check-pill"><input type="checkbox" checked> LinkedIn</label>
+        <label class="check-pill"><input type="checkbox" checked> Instagram</label>
+        <label class="check-pill"><input type="checkbox" checked> X</label>
+        <label class="check-pill"><input type="checkbox"> Facebook</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>What should it achieve</h2>
+      <div class="field">
+        <label for="f-goal">Goal for this post</label>
+        <select id="f-goal">
+          <option selected>Build authority</option>
+          <option>Reach new people</option>
+          <option>Invite enquiries</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="footer-nav">
+      <button class="btn-secondary" data-goto="voice">Back to your voice</button>
+      <button class="btn" data-goto="drafts">Generate drafts</button>
+    </div>
+  </section>
+
+  <!-- SCREEN 3: DRAFTS -->
+  <section class="screen" id="screen-drafts">
+    <h1>Drafts in your voice</h1>
+    <p class="sub">Edit anything, then copy each draft into the platform when you are ready. Nothing posts automatically.</p>
+    <p class="sample-note">All drafts below are sample output for illustration</p>
+
+    <div class="platform-tabs">
+      <button class="ptab active" data-panel="linkedin">LinkedIn</button>
+      <button class="ptab" data-panel="instagram">Instagram</button>
+      <button class="ptab" data-panel="x">X</button>
+    </div>
+
+    <div class="ppanel active" id="panel-linkedin">
+      <p class="format-note">Format: strong first line before the fold, short paragraphs, one question to close. Stated as general platform convention.</p>
+      <div class="card">
+        <div class="draft-text">Most of my clients find me in November. The smart ones find me in March.
+
+Same monthly fee. Very different year.
+
+The November clients arrive with a shoebox of receipts and a VAT deadline. We spend our first months firefighting. The March clients spend those same months planning: pricing, reserves, what to invoice before year end.
+
+The best time to fix your books is when nothing is wrong.
+
+Which one are you this year?</div>
+        <div class="why"><strong>Why this sounds like you:</strong> leads with the November and March contrast from your own writing sample, keeps sentences short, avoids urgency language per your profile.</div>
+        <div class="draft-meta">
+          <button class="btn-secondary copy-btn">Copy this draft</button>
+          <span class="copied"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ppanel" id="panel-instagram">
+      <p class="format-note">Format: visual first, caption carries the story, line breaks for readability. Stated as general platform convention.</p>
+      <div class="card">
+        <h2>Suggested visual, composed from your photos and brand colors</h2>
+        <div class="quote-card">
+          <div class="rule"></div>
+          <blockquote>The best time to fix your books is when nothing is wrong.</blockquote>
+          <div class="attr">Sample brand · Template preview</div>
+        </div>
+        <p class="hint">Template: quote card. Alternatives: carousel title slide, story crop. Composed in the browser from your uploaded photos, never AI-generated.</p>
+      </div>
+      <div class="card">
+        <div class="draft-text">Every autumn, the panic clients arrive. Shoebox of receipts, VAT deadline, stress.
+
+Every spring, a different kind of client shows up. Same fee. No shoebox. They get planning instead of firefighting.
+
+The difference is not money. It is timing.
+
+If your books only get attention when something is wrong, this is your sign to change the pattern.</div>
+        <div class="why"><strong>Why this sounds like you:</strong> keeps your calm register, no emojis per your profile, ends with an invitation rather than pressure.</div>
+        <div class="draft-meta">
+          <button class="btn-secondary copy-btn">Copy this caption</button>
+          <span class="copied"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ppanel" id="panel-x">
+      <p class="format-note">Format: one sharp idea per post, room to breathe. Stated as general platform convention.</p>
+      <div class="card">
+        <div class="draft-text">Most of my clients find me in November.
+
+The smart ones find me in March.
+
+Same fee. Very different year.</div>
+        <div class="why"><strong>Why this sounds like you:</strong> your strongest contrast, cut to its shortest form. Nothing added.</div>
+        <div class="draft-meta">
+          <button class="btn-secondary copy-btn">Copy this draft</button>
+          <span class="copied"></span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="draft-text">The best time to fix your books is when nothing is wrong.
+
+Firefighting feels productive. Planning is what actually changes the number at the bottom.</div>
+        <div class="why"><strong>Why this sounds like you:</strong> plain statement first, then the practical reason, matching your calm and precise profile.</div>
+        <div class="draft-meta">
+          <button class="btn-secondary copy-btn">Copy this draft</button>
+          <span class="copied"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-nav">
+      <button class="btn-secondary" data-goto="input">Back to your input</button>
+      <button class="btn" data-goto="input">Start another post</button>
+    </div>
+  </section>
+
+</main>
+
+<footer class="legal">
+  Concept mockup, not a live product. All names, inputs, and drafts are sample data for illustration.
+</footer>
+
+<script>
+  var stepTabs = document.querySelectorAll('.step-tab');
+  var screens = document.querySelectorAll('.screen');
+  function showScreen(name) {
+    screens.forEach(function (s) { s.classList.toggle('active', s.id === 'screen-' + name); });
+    stepTabs.forEach(function (t) { t.classList.toggle('active', t.dataset.screen === name); });
+    window.scrollTo(0, 0);
+  }
+  stepTabs.forEach(function (t) {
+    t.addEventListener('click', function () { showScreen(t.dataset.screen); });
+  });
+  document.querySelectorAll('[data-goto]').forEach(function (b) {
+    b.addEventListener('click', function () { showScreen(b.dataset.goto); });
+  });
+
+  document.querySelectorAll('.ptab').forEach(function (t) {
+    t.addEventListener('click', function () {
+      document.querySelectorAll('.ptab').forEach(function (x) { x.classList.remove('active'); });
+      document.querySelectorAll('.ppanel').forEach(function (p) { p.classList.remove('active'); });
+      t.classList.add('active');
+      document.getElementById('panel-' + t.dataset.panel).classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('.toggle').forEach(function (t) {
+    t.addEventListener('click', function () {
+      document.querySelectorAll('.toggle').forEach(function (x) { x.classList.remove('on'); });
+      t.classList.add('on');
+    });
+  });
+
+  document.querySelectorAll('.copy-btn').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var status = b.parentElement.querySelector('.copied');
+      var text = b.closest('.card').querySelector('.draft-text');
+      if (text && navigator.clipboard) { navigator.clipboard.writeText(text.textContent); }
+      status.textContent = 'Copied. Paste it into the platform.';
+    });
+  });
+</script>
+</body>
+</html>
