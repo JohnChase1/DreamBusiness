@@ -10,6 +10,14 @@ A content generation tool for founders. The user establishes a Voice Profile onc
 
 Entrepreneurs and solopreneurs who do not have time to maintain a social media presence and do not want generic AI copy. Within Dream Business, it is positioned as a post-launch tool: the thing clients use after launching their business (natural fit after Build, and a reason to stay in the ecosystem). Reference competitors: Creator Buddy, Jasper, Copy.ai, Writesonic, Copymatic, Anyword. Our differentiation: voice fidelity first, platform tailoring second, volume features last.
 
+## Product experience decisions (agreed 2026-08-28)
+
+- Draft tabs mirror input selection: the drafts screen shows exactly one tab per platform selected on the input screen (mockup now demonstrates this live).
+- History: keep everything automatically per profile: all inputs (brain dumps, articles, ideas), all drafts, the user's edits, and posted versions. This history feeds the voice-learning flywheel. Browser storage first; a move to accounts triggers the GDPR review.
+- Saving: autosave everything; no manual save button. The one deliberate action is "Mark as posted", which records the final version and trains the flywheel.
+- Reply helper: yes, for X and LinkedIn comments, paste-based (paste a post, receive reply drafts in the founder's voice). Supported by the X playbook (replies weigh 10x a like in published code) and the LinkedIn playbook (substantive comments are a documented reach channel). No platform APIs.
+- X profile analyzer: deferred. Automatic profile reading requires the paid X API or terms-violating scraping. Offered instead: paste-based analysis (paste any account's posts, receive a sourced read of what works). Revisit only if the tool earns enough to justify API costs.
+
 ## Product role decisions (agreed 2026-08-24)
 
 - Home: inside Dream Business as a post-launch client tool, not a standalone brand and not a free funnel tool.
@@ -41,11 +49,14 @@ Entrepreneurs and solopreneurs who do not have time to maintain a social media p
 
 1. **Concept and mockup (this phase).** Static clickable HTML mockup, no real AI. Deliverable: `mockup.html` in this folder.
 2. **Working prototype.** Real generation behind the mockup flow via Vercel /api/ route. Voice Profile kept in the browser (localStorage), nothing stored server-side. Consumes the platform playbooks (delivered ahead of this phase, in `playbooks/`) as generation context, and surfaces the relevant sourced rule to the user as the reason behind each format choice.
-3. **Visual composer.** Template rendering with user photo upload, export as PNG.
-4. **Decisions before build-out:** pricing and packaging, real product name, whether profiles need accounts and storage (triggers GDPR work), AI image generation yes or no, batch and ideation features.
+3. **Voice flywheel (agreed 2026-08-28, priority 1 after phase 2).** The tool learns from every edit: it compares each draft to what the user kept and marked as posted, and updates the Voice Profile accordingly ("always cuts adjectives", "never opens with a question"). Requires the autosaved history above; starts entirely in browser storage.
+4. **Voice and compliance lint (agreed 2026-08-28, priority 2).** Every draft is checked before display: against the Voice Profile (banned words, patterns the founder never uses, generic-AI tells), against the playbooks (officially demoted patterns such as engagement bait), and for claim safety (flags any factual claim the founder did not supply; UWG logic productized). Result shown as a calm per-draft check, not a score.
+5. **Carousel composer (agreed 2026-08-28, priority 3).** Extends the visual composer: composes full multi-slide carousels (LinkedIn document PDF, Instagram carousel PNGs) from the draft's key points plus the founder's photos and brand colors, in the browser, with export. Justified by playbook research: carousels are the highest-engagement underused format on both platforms.
+6. **Reply helper (agreed 2026-08-28).** Paste a post or comment thread from X or LinkedIn, receive reply drafts in the founder's voice. Paste-based only, no platform APIs. Can ship alongside or after the flywheel.
+7. **Decisions before build-out:** pricing and packaging, real product name, when profiles move from browser storage to accounts (triggers GDPR work), AI image generation yes or no, batch and ideation features.
 
 ## Open questions for the founder
 
 - Pricing: included with Build tier, separate subscription, or one-time purchase.
 - Real name (Founder Voice is a code name).
-- Should the tool also help ideate (suggest post ideas from the profile) in v1, or is transformation of existing input enough to start.
+- Idea engine: recommendation on file is to start with a recycler (re-angle past posts after their algorithmic life ends) before net-new ideation; not yet decided.

@@ -118,6 +118,29 @@
     margin-bottom: var(--space-sm);
     box-shadow: 0 1px 3px rgba(11,34,66,0.08);
   }
+  .card.keystone {
+    background: #FBF9F5;
+    border-left: 3px solid var(--db-gold);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  }
+  .keystone-label {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--db-gold);
+    margin-bottom: 6px;
+  }
+  .card.keystone h2 { margin-bottom: 6px; }
+  .keystone-why {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--db-ink-soft);
+    margin-bottom: var(--space-sm);
+  }
+  .card.keystone textarea { background: var(--db-white); }
   .card h2 {
     font-family: var(--font-heading);
     font-weight: 600;
@@ -362,8 +385,10 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card keystone">
+      <div class="keystone-label">The step that matters most</div>
       <h2>Paste writing that sounds like you</h2>
+      <p class="keystone-why">Your real writing is what the tool learns your voice from. Everything else refines it.</p>
       <div class="field">
         <label for="f-samples">Two or three posts, emails, or paragraphs you have written</label>
         <textarea id="f-samples">Most of my clients come to me in November. The smart ones come in March. Same fee, very different year. (Sample text for illustration.)</textarea>
@@ -405,12 +430,12 @@
     <div class="card">
       <h2>What are you starting from</h2>
       <div class="toggle-row">
-        <button class="toggle on">Brain dump</button>
-        <button class="toggle">Pasted article</button>
-        <button class="toggle">Rough idea</button>
+        <button class="toggle on" data-label="Your brain dump">Brain dump</button>
+        <button class="toggle" data-label="Paste the article">Pasted article</button>
+        <button class="toggle" data-label="Your rough idea">Rough idea</button>
       </div>
       <div class="field">
-        <label for="f-dump">Your brain dump</label>
+        <label for="f-dump" id="input-label">Your brain dump</label>
         <textarea id="f-dump" style="min-height: 160px;">every autumn the panic clients arrive, shoebox of receipts, VAT deadline stress... the spring clients never have this problem, they pay the same monthly fee but get planning instead of firefighting... maybe something about how the best time to fix your books is when nothing is wrong (sample input for illustration)</textarea>
       </div>
     </div>
@@ -418,11 +443,12 @@
     <div class="card">
       <h2>Where should this go</h2>
       <div class="check-row">
-        <label class="check-pill"><input type="checkbox" checked> LinkedIn</label>
-        <label class="check-pill"><input type="checkbox" checked> Instagram</label>
-        <label class="check-pill"><input type="checkbox" checked> X</label>
-        <label class="check-pill"><input type="checkbox"> Facebook</label>
+        <label class="check-pill"><input type="checkbox" data-platform="linkedin" checked> LinkedIn</label>
+        <label class="check-pill"><input type="checkbox" data-platform="instagram" checked> Instagram</label>
+        <label class="check-pill"><input type="checkbox" data-platform="x" checked> X</label>
+        <label class="check-pill"><input type="checkbox" data-platform="facebook"> Facebook</label>
       </div>
+      <p class="hint">Your drafts screen will show one tab per platform you select here.</p>
     </div>
 
     <div class="card">
@@ -453,6 +479,7 @@
       <button class="ptab active" data-panel="linkedin">LinkedIn</button>
       <button class="ptab" data-panel="instagram">Instagram</button>
       <button class="ptab" data-panel="x">X</button>
+      <button class="ptab" data-panel="facebook">Facebook</button>
     </div>
 
     <div class="ppanel active" id="panel-linkedin">
@@ -528,6 +555,24 @@ Firefighting feels productive. Planning is what actually changes the number at t
       </div>
     </div>
 
+    <div class="ppanel" id="panel-facebook">
+      <p class="format-note">Format: conversation first, native content over links, short relevant caption. Stated as general platform convention.</p>
+      <div class="card">
+        <div class="draft-text">A question for the freelancers here.
+
+When did your books last get attention: when something went wrong, or before?
+
+Every autumn I meet the first group. Shoebox of receipts, VAT deadline, stress. Every spring I meet the second group. Same fee, calm year, actual planning.
+
+I am curious what keeps people in the first group. Is it time, cost, or just that nothing feels broken yet?</div>
+        <div class="why"><strong>Why this sounds like you:</strong> opens a genuine conversation instead of broadcasting, keeps your calm register, asks a question people can answer from experience.</div>
+        <div class="draft-meta">
+          <button class="btn-secondary copy-btn">Copy this draft</button>
+          <span class="copied"></span>
+        </div>
+      </div>
+    </div>
+
     <div class="footer-nav">
       <button class="btn-secondary" data-goto="input">Back to your input</button>
       <button class="btn" data-goto="input">Start another post</button>
@@ -568,8 +613,34 @@ Firefighting feels productive. Planning is what actually changes the number at t
     t.addEventListener('click', function () {
       document.querySelectorAll('.toggle').forEach(function (x) { x.classList.remove('on'); });
       t.classList.add('on');
+      document.getElementById('input-label').textContent = t.dataset.label;
     });
   });
+
+  function syncPlatformTabs() {
+    var anyShown = false;
+    document.querySelectorAll('[data-platform]').forEach(function (cb) {
+      var tab = document.querySelector('.ptab[data-panel="' + cb.dataset.platform + '"]');
+      var panel = document.getElementById('panel-' + cb.dataset.platform);
+      tab.hidden = !cb.checked;
+      if (!cb.checked) {
+        tab.classList.remove('active');
+        panel.classList.remove('active');
+      } else {
+        anyShown = true;
+      }
+    });
+    var active = document.querySelector('.ptab.active:not([hidden])');
+    if (!active && anyShown) {
+      var first = document.querySelector('.ptab:not([hidden])');
+      first.classList.add('active');
+      document.getElementById('panel-' + first.dataset.panel).classList.add('active');
+    }
+  }
+  document.querySelectorAll('[data-platform]').forEach(function (cb) {
+    cb.addEventListener('change', syncPlatformTabs);
+  });
+  syncPlatformTabs();
 
   document.querySelectorAll('.copy-btn').forEach(function (b) {
     b.addEventListener('click', function () {
