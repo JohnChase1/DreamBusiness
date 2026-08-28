@@ -20,7 +20,7 @@ Entrepreneurs and solopreneurs who do not have time to maintain a social media p
 ## The three layers
 
 1. **Voice Profile.** Built from a short questionnaire (tone, audience, goals, topics, taboos) plus pasted samples of the founder's real writing. Stored as a structured profile that every generation quotes. This is the core asset of the product.
-2. **Transformation engine.** Input (brain dump, article, idea) plus Voice Profile plus a per-platform playbook produces draft posts. Playbooks encode format rules, length norms, hook conventions, and platform behavior. Compliance rule: platform guidance must come from documented public sources or be labeled as general convention. No invented algorithm claims or fabricated research (UWG exposure).
+2. **Transformation engine.** Input (brain dump, article, idea) plus Voice Profile plus a per-platform playbook produces draft posts. Playbooks encode format rules, length norms, hook conventions, and platform behavior. Playbooks are named deliverables: one markdown file per platform in `playbooks/`, where every rule carries a claim, a source (publisher, URL, date), and a confidence tier: Tier A platform code, Tier B official platform statement, Tier C labeled third-party research or general convention. Playbooks are dated and refreshed on a recurring review, since platform ranking changes over time. Compliance rule: platform guidance must come from documented public sources or be labeled as general convention. No invented algorithm claims or fabricated research (UWG exposure).
 3. **Visual composer.** Browser-side templates (no server) that combine the founder's uploaded photos and brand colors with post text: quote cards, carousel title slides, story-format crops.
 
 ## Success criteria
@@ -40,7 +40,7 @@ Entrepreneurs and solopreneurs who do not have time to maintain a social media p
 ## Phases
 
 1. **Concept and mockup (this phase).** Static clickable HTML mockup, no real AI. Deliverable: `mockup.html` in this folder.
-2. **Working prototype.** Real generation behind the mockup flow via Vercel /api/ route. Voice Profile kept in the browser (localStorage), nothing stored server-side.
+2. **Working prototype.** Real generation behind the mockup flow via Vercel /api/ route. Voice Profile kept in the browser (localStorage), nothing stored server-side. Consumes the platform playbooks (delivered ahead of this phase, in `playbooks/`) as generation context, and surfaces the relevant sourced rule to the user as the reason behind each format choice.
 3. **Visual composer.** Template rendering with user photo upload, export as PNG.
 4. **Decisions before build-out:** pricing and packaging, real product name, whether profiles need accounts and storage (triggers GDPR work), AI image generation yes or no, batch and ideation features.
 
