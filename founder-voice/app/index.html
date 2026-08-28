@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Founder Voice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Playfair+Display:ital@0;1&family=DM+Sans:wght@400;500&display=swap">
+<style>
+  :root {
+    --db-navy: #0B2242; --db-gold: #C9A66B; --db-white: #FFFFFF;
+    --db-sand: #F6F3EE; --db-gray: #AAB2BD; --db-ink-soft: #3D5170; --db-error: #B0443C;
+    --font-heading: 'Montserrat', sans-serif;
+    --font-accent: 'Playfair Display', serif;
+    --font-body: 'DM Sans', 'Lato', sans-serif;
+    --space-xs: 8px; --space-sm: 16px; --space-md: 24px; --space-lg: 48px;
+    --radius-sm: 6px; --radius-md: 10px; --maxwidth-content: 720px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: var(--db-sand); }
+  body { font-family: var(--font-body); font-size: 16px; line-height: 1.6; color: var(--db-navy); }
+
+  .topbar { background: var(--db-navy); color: var(--db-white); padding: 14px var(--space-sm); }
+  .topbar-inner { max-width: var(--maxwidth-content); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); }
+  .wordmark { font-family: var(--font-heading); font-weight: 700; font-size: 16px; }
+  .wordmark span { color: var(--db-gold); }
+  .topbar-right { display: flex; align-items: center; gap: var(--space-sm); }
+  .beta-badge { font-family: var(--font-heading); font-weight: 600; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; border: 1px solid var(--db-gold); color: var(--db-gold); border-radius: var(--radius-sm); padding: 3px 8px; }
+  .link-btn { background: none; border: none; color: var(--db-white); font-family: var(--font-heading); font-weight: 600; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; min-height: 44px; }
+
+  .steps { background: var(--db-white); border-bottom: 1px solid rgba(11,34,66,0.10); }
+  .steps-inner { max-width: var(--maxwidth-content); margin: 0 auto; display: flex; }
+  .step-tab { flex: 1; background: none; border: none; border-bottom: 2px solid transparent; font-family: var(--font-heading); font-weight: 600; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--db-gray); padding: 14px 4px; cursor: pointer; min-height: 44px; }
+  .step-tab.active { color: var(--db-navy); border-bottom-color: var(--db-gold); }
+  .step-tab .num { color: var(--db-gold); margin-right: 4px; }
+
+  main { max-width: var(--maxwidth-content); margin: 0 auto; padding: var(--space-md) var(--space-sm) 80px; }
+  .screen { display: none; }
+  .screen.active { display: block; }
+  h1 { font-family: var(--font-heading); font-weight: 700; font-size: 24px; line-height: 1.25; margin-bottom: 6px; }
+  .sub { color: var(--db-ink-soft); font-size: 15px; margin-bottom: var(--space-md); max-width: 40em; }
+
+  .firstrun { background: var(--db-white); border-left: 3px solid var(--db-gold); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: var(--space-sm); margin-bottom: var(--space-sm); font-size: 14px; color: var(--db-ink-soft); display: flex; justify-content: space-between; gap: var(--space-sm); align-items: center; }
+  .firstrun button { background: none; border: none; color: var(--db-gray); font-size: 13px; cursor: pointer; min-height: 44px; white-space: nowrap; }
+
+  .card { background: var(--db-white); border-radius: var(--radius-md); padding: var(--space-md); margin-bottom: var(--space-sm); box-shadow: 0 1px 3px rgba(11,34,66,0.08); }
+  .card.keystone { background: #FBF9F5; border-left: 3px solid var(--db-gold); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+  .keystone-label { font-family: var(--font-heading); font-weight: 600; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--db-gold); margin-bottom: 6px; }
+  .keystone-why { font-family: var(--font-accent); font-style: italic; font-size: 16px; color: var(--db-ink-soft); margin-bottom: var(--space-sm); }
+  .card.keystone textarea { background: var(--db-white); }
+  .card h2 { font-family: var(--font-heading); font-weight: 600; font-size: 16px; margin-bottom: var(--space-sm); display: flex; align-items: center; gap: 8px; }
+
+  .info-btn { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--db-gray); color: var(--db-gray); background: none; font-family: var(--font-body); font-size: 12px; font-weight: 500; line-height: 1; cursor: pointer; flex-shrink: 0; }
+  .info-pop { display: none; background: var(--db-sand); border-radius: var(--radius-sm); padding: 12px; font-size: 13px; font-weight: 400; color: var(--db-ink-soft); margin: 6px 0 var(--space-sm); }
+  .info-pop.open { display: block; }
+
+  label { display: block; font-size: 13px; font-weight: 500; color: var(--db-navy); margin-bottom: 6px; }
+  .field { margin-bottom: var(--space-sm); }
+  input[type="text"], textarea, select { width: 100%; background: var(--db-white); border: 1.5px solid var(--db-gray); border-radius: var(--radius-sm); padding: 12px; font-family: var(--font-body); font-size: 16px; color: var(--db-navy); }
+  textarea { min-height: 120px; resize: vertical; }
+  input:focus, textarea:focus, select:focus { outline: none; border-color: var(--db-navy); }
+  .hint { font-size: 13px; color: var(--db-ink-soft); margin-top: 6px; }
+  .error-text { font-size: 14px; color: var(--db-error); margin-top: var(--space-sm); }
+
+  .btn { display: inline-block; background: var(--db-gold); color: var(--db-navy); font-family: var(--font-heading); font-weight: 600; font-size: 15px; border: none; border-radius: var(--radius-sm); padding: 14px 28px; cursor: pointer; min-height: 44px; }
+  .btn:hover { background: #B8965D; }
+  .btn:disabled { background: var(--db-gray); cursor: default; }
+  .btn-secondary { background: transparent; border: 1.5px solid var(--db-navy); color: var(--db-navy); font-family: var(--font-heading); font-weight: 600; font-size: 13px; border-radius: var(--radius-sm); padding: 10px 16px; cursor: pointer; min-height: 44px; }
+
+  .toggle-row { display: flex; gap: var(--space-xs); margin-bottom: var(--space-sm); flex-wrap: wrap; }
+  .toggle { background: var(--db-white); border: 1.5px solid var(--db-gray); border-radius: var(--radius-sm); font-family: var(--font-heading); font-weight: 600; font-size: 13px; color: var(--db-ink-soft); padding: 10px 14px; cursor: pointer; min-height: 44px; }
+  .toggle.on { border-color: var(--db-navy); color: var(--db-navy); background: var(--db-sand); }
+
+  .check-row { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+  .check-pill { display: flex; align-items: center; gap: 8px; border: 1.5px solid var(--db-gray); border-radius: var(--radius-sm); padding: 10px 14px; font-size: 14px; cursor: pointer; min-height: 44px; background: var(--db-white); }
+  .check-pill input { width: auto; accent-color: #0B2242; }
+
+  .color-row { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
+  .color-field { display: flex; align-items: center; gap: 8px; }
+  .color-field input[type="color"] { width: 44px; height: 44px; border: 1.5px solid var(--db-gray); border-radius: var(--radius-sm); background: var(--db-white); padding: 4px; cursor: pointer; }
+
+  .platform-tabs { display: flex; gap: var(--space-xs); margin-bottom: var(--space-sm); flex-wrap: wrap; }
+  .ptab { background: var(--db-white); border: 1.5px solid var(--db-gray); border-radius: var(--radius-sm); font-family: var(--font-heading); font-weight: 600; font-size: 13px; color: var(--db-ink-soft); padding: 10px 14px; cursor: pointer; min-height: 44px; }
+  .ptab.active { background: var(--db-navy); border-color: var(--db-navy); color: var(--db-white); }
+
+  .model-label { font-family: var(--font-heading); font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--db-gray); margin: var(--space-sm) 0 var(--space-xs); }
+  .draft-edit { width: 100%; min-height: 140px; }
+  .why { font-size: 13px; color: var(--db-ink-soft); background: var(--db-sand); border-radius: var(--radius-sm); padding: 12px; margin: var(--space-sm) 0; }
+  .why strong { font-weight: 500; color: var(--db-navy); }
+  .format-note { font-size: 13px; color: var(--db-gray); margin-bottom: var(--space-sm); }
+  .draft-meta { display: flex; gap: var(--space-xs); align-items: center; border-top: 1px solid rgba(11,34,66,0.10); padding-top: var(--space-sm); flex-wrap: wrap; }
+  .status-note { font-size: 13px; color: var(--db-ink-soft); }
+  .posted-chip { font-family: var(--font-heading); font-weight: 600; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--db-navy); background: var(--db-sand); border: 1px solid var(--db-gold); border-radius: var(--radius-sm); padding: 4px 8px; }
+
+  .visual-controls { display: flex; gap: var(--space-xs); flex-wrap: wrap; margin-bottom: var(--space-sm); }
+  .quote-card { border-radius: var(--radius-md); max-width: 340px; padding: 28px; display: flex; flex-direction: column; justify-content: center; gap: 14px; margin-bottom: var(--space-sm); }
+  .quote-card.r45 { aspect-ratio: 4 / 5; }
+  .quote-card.r11 { aspect-ratio: 1 / 1; }
+  .quote-card .rule { width: 40px; height: 2px; }
+  .quote-card blockquote { font-family: var(--font-accent); font-style: italic; font-size: 20px; line-height: 1.45; }
+  .quote-card .attr { font-family: var(--font-heading); font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+
+  .history-item { border-top: 1px solid rgba(11,34,66,0.10); padding: var(--space-sm) 0; }
+  .history-item:first-child { border-top: none; }
+  .history-date { font-size: 12px; color: var(--db-gray); margin-bottom: 4px; }
+  .history-input { font-size: 14px; color: var(--db-ink-soft); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+
+  .loading { display: none; align-items: center; gap: 10px; color: var(--db-ink-soft); font-size: 15px; margin-top: var(--space-sm); }
+  .loading.on { display: flex; }
+  .loading .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--db-gold); animation: pulse 1.2s infinite ease-in-out; }
+  @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .loading .dot { animation: none; } }
+
+  .footer-nav { display: flex; justify-content: space-between; gap: var(--space-sm); margin-top: var(--space-md); }
+  footer.legal { background: var(--db-navy); color: var(--db-gray); font-size: 12px; padding: var(--space-md) var(--space-sm); text-align: center; }
+  footer.legal a { color: var(--db-gray); }
+  @media (min-width: 768px) { main { padding-top: var(--space-lg); } h1 { font-size: 30px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="wordmark">Founder<span>Voice</span></div>
+    <div class="topbar-right">
+      <button class="link-btn" id="nav-history">History</button>
+      <span class="beta-badge">Beta</span>
+    </div>
+  </div>
+</div>
+
+<div class="steps">
+  <div class="steps-inner">
+    <button class="step-tab active" data-screen="voice"><span class="num">1</span>Your voice</button>
+    <button class="step-tab" data-screen="input"><span class="num">2</span>Your input</button>
+    <button class="step-tab" data-screen="drafts"><span class="num">3</span>Your drafts</button>
+  </div>
+</div>
+
+<main>
+
+  <!-- VOICE -->
+  <section class="screen active" id="screen-voice">
+    <h1>Set up your voice once</h1>
+    <p class="sub">Everything on this page saves automatically as you type. Your profile stays in this browser, on this device.</p>
+    <div class="firstrun" data-fr="voice"><span>This is where the tool learns how you sound. It takes five minutes and you do it once.</span><button>Got it</button></div>
+
+    <div class="card">
+      <h2>About you and your audience <button class="info-btn" data-info="i-about">?</button></h2>
+      <div class="info-pop" id="i-about">These answers frame every draft: what you do, who it is for, and the register you want. Plain answers work best.</div>
+      <div class="field"><label for="f-business">What your business does, in one sentence</label><input id="f-business" type="text" data-store="profile.business" placeholder="Example: monthly bookkeeping for solo consultants"></div>
+      <div class="field"><label for="f-audience">Who you want to reach</label><input id="f-audience" type="text" data-store="profile.audience" placeholder="Example: freelancers who still do their own books"></div>
+      <div class="field"><label for="f-tone">Three words for how you want to sound</label><input id="f-tone" type="text" data-store="profile.tone" placeholder="Example: calm, precise, practical"></div>
+      <div class="field"><label for="f-taboos">Things you never say or do</label><input id="f-taboos" type="text" data-store="profile.taboos" placeholder="Example: no promises, no scare tactics, no emojis"></div>
+    </div>
+
+    <div class="card keystone">
+      <div class="keystone-label">The step that matters most</div>
+      <h2>Paste writing that sounds like you <button class="info-btn" data-info="i-samples">?</button></h2>
+      <div class="info-pop" id="i-samples">Your real writing is the strongest signal the engine has. Two or three genuine posts, emails, or paragraphs beat any questionnaire answer. The more you paste, the closer the drafts sound to you.</div>
+      <p class="keystone-why">Your real writing is what the tool learns your voice from. Everything else refines it.</p>
+      <div class="field"><label for="f-samples">Two or three posts, emails, or paragraphs you have written</label><textarea id="f-samples" data-store="profile.samples" placeholder="Paste your writing here"></textarea></div>
+    </div>
+
+    <div class="card">
+      <h2>Your brand kit <button class="info-btn" data-info="i-brand">?</button></h2>
+      <div class="info-pop" id="i-brand">These choices style your visuals, like the Instagram quote card. Colors and fonts are applied by your own device when a visual is composed. Nothing is generated by AI.</div>
+      <div class="field">
+        <label>Brand colors</label>
+        <div class="color-row">
+          <div class="color-field"><input type="color" id="f-bg" data-store="brand.bg" value="#0B2242"><span class="hint">Background</span></div>
+          <div class="color-field"><input type="color" id="f-accent" data-store="brand.accent" value="#C9A66B"><span class="hint">Accent</span></div>
+          <div class="color-field"><input type="color" id="f-text" data-store="brand.text" value="#FFFFFF"><span class="hint">Text</span></div>
+        </div>
+      </div>
+      <div class="field">
+        <label for="f-font">Visual font</label>
+        <select id="f-font" data-store="brand.font">
+          <option value="Playfair Display">Playfair Display (serif, editorial)</option>
+          <option value="Montserrat">Montserrat (bold, geometric)</option>
+          <option value="DM Sans">DM Sans (clean, neutral)</option>
+        </select>
+        <p class="hint">Fonts come from a licensed-safe list, so every visual is safe to publish.</p>
+      </div>
+      <div class="field"><label for="f-brandname">Brand name on visuals</label><input id="f-brandname" type="text" data-store="brand.name" placeholder="Shown small on quote cards"></div>
+    </div>
+
+    <div class="card">
+      <h2>Engine settings <button class="info-btn" data-info="i-engine">?</button></h2>
+      <div class="info-pop" id="i-engine">Two engines are available. Compare mode generates every draft with both so you can judge which sounds more like you. Your choice is saved.</div>
+      <div class="field">
+        <label for="f-model">Writing engine</label>
+        <select id="f-model" data-store="settings.model">
+          <option value="claude-opus-5">Precision engine (default)</option>
+          <option value="claude-sonnet-5">Fast engine</option>
+        </select>
+      </div>
+      <label class="check-pill" style="display:inline-flex"><input type="checkbox" id="f-compare" data-store="settings.compare"> Compare both engines side by side</label>
+    </div>
+
+    <div class="footer-nav"><span></span><button class="btn" data-goto="input">Continue to your input</button></div>
+  </section>
+
+  <!-- INPUT -->
+  <section class="screen" id="screen-input">
+    <h1>Give it something to work with</h1>
+    <p class="sub">A brain dump, a pasted article, or a rough idea. Unpolished is fine, that is the point.</p>
+    <div class="firstrun" data-fr="input"><span>Write like you talk. The engine's job is shaping it, yours is approving it.</span><button>Got it</button></div>
+
+    <div class="card">
+      <h2>What are you starting from</h2>
+      <div class="toggle-row">
+        <button class="toggle on" data-type="brain dump" data-label="Your brain dump">Brain dump</button>
+        <button class="toggle" data-type="pasted article" data-label="Paste the article">Pasted article</button>
+        <button class="toggle" data-type="rough idea" data-label="Your rough idea">Rough idea</button>
+      </div>
+      <div class="field"><label for="f-input" id="input-label">Your brain dump</label><textarea id="f-input" style="min-height:160px" data-store="run.inputText" placeholder="Type or paste here. It saves as you go."></textarea></div>
+    </div>
+
+    <div class="card">
+      <h2>Where should this go <button class="info-btn" data-info="i-platforms">?</button></h2>
+      <div class="info-pop" id="i-platforms">Your drafts screen shows one tab per platform you select. Each platform's drafts follow that platform's published rules, and every draft explains which rule shaped it.</div>
+      <div class="check-row">
+        <label class="check-pill"><input type="checkbox" data-platform="linkedin" checked> LinkedIn</label>
+        <label class="check-pill"><input type="checkbox" data-platform="instagram" checked> Instagram</label>
+        <label class="check-pill"><input type="checkbox" data-platform="x" checked> X</label>
+        <label class="check-pill"><input type="checkbox" data-platform="facebook"> Facebook</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>What should it achieve</h2>
+      <div class="field">
+        <label for="f-goal">Goal for this post</label>
+        <select id="f-goal" data-store="run.goal">
+          <option>Build authority</option>
+          <option>Reach new people</option>
+          <option>Invite enquiries</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="footer-nav">
+      <button class="btn-secondary" data-goto="voice">Back to your voice</button>
+      <button class="btn" id="generate-btn">Generate drafts</button>
+    </div>
+    <div class="loading" id="loading"><span class="dot"></span><span>Preparing your drafts. This can take up to a minute.</span></div>
+    <p class="error-text" id="gen-error" hidden></p>
+  </section>
+
+  <!-- DRAFTS -->
+  <section class="screen" id="screen-drafts">
+    <h1>Drafts in your voice</h1>
+    <p class="sub">Edit anything, copy it out, and mark what you actually publish. Nothing posts automatically.</p>
+    <div class="firstrun" data-fr="drafts"><span>Marking a draft as posted teaches the tool which version of your voice won. It is the one deliberate save in the app.</span><button>Got it</button></div>
+    <div id="drafts-root"><p class="status-note">No drafts yet. Start from your input.</p></div>
+    <div class="footer-nav">
+      <button class="btn-secondary" data-goto="input">Back to your input</button>
+      <button class="btn" data-goto="input">Start another post</button>
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="screen" id="screen-history">
+    <h1>Your history</h1>
+    <p class="sub">Every input and every draft is kept automatically in this browser. Open a run to see its drafts again.</p>
+    <div class="card" id="history-root"><p class="status-note">Nothing here yet. Your runs will appear as you generate drafts.</p></div>
+    <div class="footer-nav"><button class="btn-secondary" data-goto="input">Back to your input</button><span></span></div>
+  </section>
+
+</main>
+
+<footer class="legal">
+  Founder Voice, a Dream Business tool. You approve everything. Nothing posts itself.<br>
+  <a href="https://dreambusiness.xyz/impressum">Impressum</a> · <a href="https://dreambusiness.xyz/privacy">Privacy</a>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---------- storage ----------
+  var store = { profile: {}, brand: { bg: "#0B2242", accent: "#C9A66B", text: "#FFFFFF", font: "Playfair Display", name: "" }, settings: { model: "claude-opus-5", compare: false }, run: { inputType: "brain dump", inputText: "", goal: "Build authority" }, seen: {}, history: [] };
+  function load() {
+    try {
+      var raw = localStorage.getItem("fv.state");
+      if (raw) {
+        var saved = JSON.parse(raw);
+        Object.keys(store).forEach(function (k) { if (saved[k] !== undefined) store[k] = saved[k]; });
+      }
+    } catch (e) { /* private mode or blocked storage; app still works, nothing persists */ }
+  }
+  function save() {
+    try { localStorage.setItem("fv.state", JSON.stringify(store)); } catch (e) { /* ignore */ }
+  }
+  load();
+
+  function getPath(path) { var parts = path.split("."); return store[parts[0]] ? store[parts[0]][parts[1]] : undefined; }
+  function setPath(path, value) { var parts = path.split("."); if (!store[parts[0]]) store[parts[0]] = {}; store[parts[0]][parts[1]] = value; save(); }
+
+  // Bind every data-store field: restore value, autosave on input.
+  document.querySelectorAll("[data-store]").forEach(function (el) {
+    var path = el.dataset.store;
+    var saved = getPath(path);
+    if (el.type === "checkbox") { el.checked = !!saved; el.addEventListener("change", function () { setPath(path, el.checked); }); }
+    else { if (saved !== undefined && saved !== "") el.value = saved; el.addEventListener("input", function () { setPath(path, el.value); }); }
+  });
+
+  // ---------- navigation ----------
+  var stepTabs = document.querySelectorAll(".step-tab");
+  function showScreen(name) {
+    document.querySelectorAll(".screen").forEach(function (s) { s.classList.toggle("active", s.id === "screen-" + name); });
+    stepTabs.forEach(function (t) { t.classList.toggle("active", t.dataset.screen === name); });
+    window.scrollTo(0, 0);
+  }
+  stepTabs.forEach(function (t) { t.addEventListener("click", function () { showScreen(t.dataset.screen); }); });
+  document.querySelectorAll("[data-goto]").forEach(function (b) { b.addEventListener("click", function () { showScreen(b.dataset.goto); }); });
+  document.getElementById("nav-history").addEventListener("click", function () { renderHistory(); showScreen("history"); });
+
+  // ---------- teaching layer ----------
+  document.querySelectorAll(".info-btn").forEach(function (b) {
+    b.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var pop = document.getElementById(b.dataset.info);
+      var wasOpen = pop.classList.contains("open");
+      document.querySelectorAll(".info-pop.open").forEach(function (p) { p.classList.remove("open"); });
+      if (!wasOpen) pop.classList.add("open");
+    });
+  });
+  document.addEventListener("click", function () { document.querySelectorAll(".info-pop.open").forEach(function (p) { p.classList.remove("open"); }); });
+  document.querySelectorAll(".firstrun").forEach(function (fr) {
+    if (store.seen[fr.dataset.fr]) { fr.remove(); return; }
+    fr.querySelector("button").addEventListener("click", function () { store.seen[fr.dataset.fr] = true; save(); fr.remove(); });
+  });
+
+  // ---------- input type toggles ----------
+  document.querySelectorAll(".toggle").forEach(function (t) {
+    t.addEventListener("click", function () {
+      document.querySelectorAll(".toggle").forEach(function (x) { x.classList.remove("on"); });
+      t.classList.add("on");
+      document.getElementById("input-label").textContent = t.dataset.label;
+      setPath("run.inputType", t.dataset.type);
+    });
+  });
+
+  // ---------- generation ----------
+  var currentRun = null;
+  var genBtn = document.getElementById("generate-btn");
+  var loading = document.getElementById("loading");
+  var genError = document.getElementById("gen-error");
+
+  genBtn.addEventListener("click", function () {
+    genError.hidden = true;
+    var text = (document.getElementById("f-input").value || "").trim();
+    if (!text) { genError.textContent = "Enter something to work with first."; genError.hidden = false; return; }
+    var platforms = [];
+    document.querySelectorAll("[data-platform]").forEach(function (cb) { if (cb.checked) platforms.push(cb.dataset.platform); });
+    if (platforms.length === 0) { genError.textContent = "Select at least one platform."; genError.hidden = false; return; }
+
+    genBtn.disabled = true;
+    loading.classList.add("on");
+
+    fetch("/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        profile: store.profile,
+        input: { type: store.run.inputType || "brain dump", text: text },
+        platforms: platforms,
+        goal: document.getElementById("f-goal").value,
+        model: store.settings.model,
+        compare: !!store.settings.compare,
+      }),
+    })
+      .then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.data.error || "Generation failed. Try again.");
+        currentRun = {
+          id: Date.now(),
+          date: new Date().toISOString(),
+          inputType: store.run.inputType || "brain dump",
+          inputText: text,
+          goal: document.getElementById("f-goal").value,
+          platforms: platforms,
+          results: res.data.results,
+          posted: {},
+        };
+        store.history.unshift(currentRun);
+        if (store.history.length > 100) store.history.pop();
+        save();
+        renderDrafts(currentRun);
+        showScreen("drafts");
+      })
+      .catch(function (err) { genError.textContent = err.message; genError.hidden = false; })
+      .finally(function () { genBtn.disabled = false; loading.classList.remove("on"); });
+  });
+
+  // ---------- drafts rendering ----------
+  var PLATFORM_NAMES = { linkedin: "LinkedIn", instagram: "Instagram", x: "X", facebook: "Facebook" };
+
+  function renderDrafts(run) {
+    var root = document.getElementById("drafts-root");
+    root.innerHTML = "";
+    if (!run) { root.innerHTML = '<p class="status-note">No drafts yet. Start from your input.</p>'; return; }
+
+    var tabs = document.createElement("div");
+    tabs.className = "platform-tabs";
+    var panels = {};
+    run.platforms.forEach(function (p, idx) {
+      var tab = document.createElement("button");
+      tab.className = "ptab" + (idx === 0 ? " active" : "");
+      tab.textContent = PLATFORM_NAMES[p] || p;
+      tab.addEventListener("click", function () {
+        tabs.querySelectorAll(".ptab").forEach(function (t) { t.classList.remove("active"); });
+        tab.classList.add("active");
+        Object.keys(panels).forEach(function (k) { panels[k].hidden = k !== p; });
+      });
+      tabs.appendChild(tab);
+    });
+    root.appendChild(tabs);
+
+    run.platforms.forEach(function (p, idx) {
+      var panel = document.createElement("div");
+      panel.hidden = idx !== 0;
+      panels[p] = panel;
+
+      run.results.forEach(function (result) {
+        if (run.results.length > 1) {
+          var ml = document.createElement("div");
+          ml.className = "model-label";
+          ml.textContent = result.model && result.model.indexOf("opus") >= 0 ? "Precision engine" : "Fast engine";
+          panel.appendChild(ml);
+        }
+        if (result.error) {
+          var er = document.createElement("p");
+          er.className = "error-text";
+          er.textContent = result.error;
+          panel.appendChild(er);
+          return;
+        }
+        var pdata = result.platforms[p];
+        if (!pdata) return;
+        if (pdata.formatNote) {
+          var fn = document.createElement("p");
+          fn.className = "format-note";
+          fn.textContent = "Format: " + pdata.formatNote;
+          panel.appendChild(fn);
+        }
+        (pdata.drafts || []).forEach(function (draft, di) {
+          panel.appendChild(renderDraftCard(run, result, p, draft, di));
+        });
+        if (p === "instagram" && (pdata.drafts || []).length > 0) {
+          panel.appendChild(renderVisualCard(pdata.drafts[0].text));
+        }
+      });
+      root.appendChild(panel);
+    });
+  }
+
+  function renderDraftCard(run, result, platform, draft, di) {
+    var card = document.createElement("div");
+    card.className = "card";
+    var ta = document.createElement("textarea");
+    ta.className = "draft-edit";
+    ta.value = draft.text;
+    ta.addEventListener("input", function () { draft.text = ta.value; save(); });
+    card.appendChild(ta);
+
+    if (draft.why) {
+      var why = document.createElement("div");
+      why.className = "why";
+      why.innerHTML = "<strong>Why this sounds like you:</strong> ";
+      why.appendChild(document.createTextNode(draft.why));
+      card.appendChild(why);
+    }
+
+    var meta = document.createElement("div");
+    meta.className = "draft-meta";
+    var copyBtn = document.createElement("button");
+    copyBtn.className = "btn-secondary";
+    copyBtn.textContent = "Copy this draft";
+    var status = document.createElement("span");
+    status.className = "status-note";
+    copyBtn.addEventListener("click", function () {
+      if (navigator.clipboard) navigator.clipboard.writeText(ta.value);
+      status.textContent = "Copied. Paste it into the platform.";
+    });
+    var postKey = platform + ":" + (result.model || "") + ":" + di;
+    var postBtn = document.createElement("button");
+    postBtn.className = "btn-secondary";
+    function refreshPosted() {
+      if (run.posted[postKey]) { postBtn.textContent = "Posted"; postBtn.disabled = true; var chip = document.createElement("span"); chip.className = "posted-chip"; chip.textContent = "Marked as posted"; meta.appendChild(chip); }
+      else { postBtn.textContent = "Mark as posted"; }
+    }
+    postBtn.addEventListener("click", function () {
+      run.posted[postKey] = { text: ta.value, at: new Date().toISOString() };
+      save();
+      refreshPosted();
+    });
+    meta.appendChild(copyBtn);
+    meta.appendChild(postBtn);
+    meta.appendChild(status);
+    refreshPosted();
+    card.appendChild(meta);
+    return card;
+  }
+
+  // ---------- Instagram visual ----------
+  var visualRatio = "45";
+  function renderVisualCard(captionText) {
+    var card = document.createElement("div");
+    card.className = "card";
+    var h = document.createElement("h2");
+    h.textContent = "Suggested visual, composed from your brand kit";
+    card.appendChild(h);
+
+    var controls = document.createElement("div");
+    controls.className = "visual-controls";
+    var b45 = document.createElement("button"); b45.className = "toggle" + (visualRatio === "45" ? " on" : ""); b45.textContent = "4:5";
+    var b11 = document.createElement("button"); b11.className = "toggle" + (visualRatio === "11" ? " on" : ""); b11.textContent = "1:1";
+    controls.appendChild(b45); controls.appendChild(b11);
+    card.appendChild(controls);
+
+    var quote = firstStrongLine(captionText);
+    var qc = document.createElement("div");
+    function paintCard() {
+      qc.className = "quote-card " + (visualRatio === "45" ? "r45" : "r11");
+      qc.style.background = store.brand.bg;
+      qc.innerHTML = "";
+      var rule = document.createElement("div"); rule.className = "rule"; rule.style.background = store.brand.accent;
+      var bq = document.createElement("blockquote"); bq.style.color = store.brand.text; bq.style.fontFamily = "'" + store.brand.font + "', serif"; bq.textContent = quote;
+      var attr = document.createElement("div"); attr.className = "attr"; attr.style.color = store.brand.accent; attr.textContent = store.brand.name || "Set your brand name in your voice setup";
+      qc.appendChild(rule); qc.appendChild(bq); qc.appendChild(attr);
+    }
+    paintCard();
+    b45.addEventListener("click", function () { visualRatio = "45"; b45.classList.add("on"); b11.classList.remove("on"); paintCard(); });
+    b11.addEventListener("click", function () { visualRatio = "11"; b11.classList.add("on"); b45.classList.remove("on"); paintCard(); });
+    card.appendChild(qc);
+
+    var dl = document.createElement("button");
+    dl.className = "btn-secondary";
+    dl.textContent = "Download as image";
+    dl.addEventListener("click", function () { exportQuoteCard(quote); });
+    card.appendChild(dl);
+    var hint = document.createElement("p");
+    hint.className = "hint";
+    hint.textContent = "Composed on your device from your brand colors and fonts. Never AI-generated. Carousels arrive in a later version.";
+    card.appendChild(hint);
+    return card;
+  }
+
+  function firstStrongLine(text) {
+    var lines = (text || "").split(/\n+/).map(function (l) { return l.trim(); }).filter(Boolean);
+    var line = lines[0] || "";
+    if (line.length > 120) line = line.slice(0, 117) + "...";
+    return line;
+  }
+
+  function exportQuoteCard(quote) {
+    var w = 1080;
+    var h = visualRatio === "45" ? 1350 : 1080;
+    var canvas = document.createElement("canvas");
+    canvas.width = w; canvas.height = h;
+    var ctx = canvas.getContext("2d");
+    ctx.fillStyle = store.brand.bg;
+    ctx.fillRect(0, 0, w, h);
+    var pad = 100;
+    ctx.fillStyle = store.brand.accent;
+    ctx.fillRect(pad, h * 0.3 - 60, 120, 6);
+    ctx.fillStyle = store.brand.text;
+    ctx.font = "italic 64px '" + store.brand.font + "', serif";
+    wrapText(ctx, quote, pad, h * 0.3 + 40, w - pad * 2, 88);
+    ctx.fillStyle = store.brand.accent;
+    ctx.font = "600 30px 'Montserrat', sans-serif";
+    ctx.fillText((store.brand.name || "").toUpperCase(), pad, h - pad);
+    var a = document.createElement("a");
+    a.download = "founder-voice-card.png";
+    a.href = canvas.toDataURL("image/png");
+    a.click();
+  }
+
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+    var words = text.split(" ");
+    var line = "";
+    for (var i = 0; i < words.length; i++) {
+      var test = line + words[i] + " ";
+      if (ctx.measureText(test).width > maxWidth && line) {
+        ctx.fillText(line.trim(), x, y);
+        line = words[i] + " ";
+        y += lineHeight;
+      } else { line = test; }
+    }
+    ctx.fillText(line.trim(), x, y);
+  }
+
+  // ---------- history ----------
+  function renderHistory() {
+    var root = document.getElementById("history-root");
+    if (!store.history.length) { root.innerHTML = '<p class="status-note">Nothing here yet. Your runs will appear as you generate drafts.</p>'; return; }
+    root.innerHTML = "";
+    store.history.forEach(function (run) {
+      var item = document.createElement("div");
+      item.className = "history-item";
+      var date = document.createElement("div");
+      date.className = "history-date";
+      var postedCount = Object.keys(run.posted || {}).length;
+      date.textContent = new Date(run.date).toLocaleString() + " · " + run.platforms.map(function (p) { return PLATFORM_NAMES[p] || p; }).join(", ") + (postedCount ? " · " + postedCount + " posted" : "");
+      var input = document.createElement("div");
+      input.className = "history-input";
+      input.textContent = run.inputText;
+      var open = document.createElement("button");
+      open.className = "btn-secondary";
+      open.style.marginTop = "8px";
+      open.textContent = "Open this run";
+      open.addEventListener("click", function () { currentRun = run; renderDrafts(run); showScreen("drafts"); });
+      item.appendChild(date); item.appendChild(input); item.appendChild(open);
+      root.appendChild(item);
+    });
+  }
+})();
+</script>
+</body>
+</html>
