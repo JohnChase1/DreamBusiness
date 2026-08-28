@@ -31,6 +31,21 @@ Entrepreneurs and solopreneurs who do not have time to maintain a social media p
 2. **Transformation engine.** Input (brain dump, article, idea) plus Voice Profile plus a per-platform playbook produces draft posts. Playbooks encode format rules, length norms, hook conventions, and platform behavior. Playbooks are named deliverables: one markdown file per platform in `playbooks/`, where every rule carries a claim, a source (publisher, URL, date), and a confidence tier: Tier A platform code, Tier B official platform statement, Tier C labeled third-party research or general convention. Playbooks are dated and refreshed on a recurring review, since platform ranking changes over time. Compliance rule: platform guidance must come from documented public sources or be labeled as general convention. No invented algorithm claims or fabricated research (UWG exposure).
 3. **Visual composer.** Browser-side templates (no server) that combine the founder's uploaded photos and brand colors with post text: quote cards, carousel title slides, story-format crops.
 
+## Instagram visual decisions (agreed 2026-08-28)
+
+- Format controls on the Instagram drafts tab: ratio selector (1:1 and 4:5 in v1; 9:16 story crop later) and format (single image or carousel). Default ratio 4:5 (larger feed footprint, matches Instagram's crop direction).
+- Carousel vs single is proposed automatically from the content (framework or list content becomes a carousel proposal, a single sharp statement becomes a quote card), with a one-tap override.
+- Brand kit, set once in the Voice Profile setup: logo upload, photo uploads (already specified), brand colors by manual entry with a color picker, fonts chosen from a curated list of licensed-safe fonts (no font-file upload; the tool cannot verify font licenses). Later enhancement: auto-suggest colors from the uploaded logo.
+
+## Cost architecture (agreed 2026-08-28; protects margins by design)
+
+- Visuals are composed in the browser: zero marginal cost per visual. This is a core economic advantage over image-generating competitors and a standing reason to keep AI image generation out of scope.
+- History and autosave live in browser storage: zero platform cost. The flywheel must distill history into a compact Voice Profile; raw history is never sent wholesale to the model. More history improves the profile, not the bill.
+- Text generation is the only per-use cost. Reference estimate (2026-08 Anthropic rates, one run = profile + playbook rules + input in, 2 drafts x 4 platforms out, roughly 5k tokens in / 2.5k out): about $0.035 on Sonnet 5, about $0.09 on Opus 5. A heavy user at 100 runs/month costs single-digit dollars on either model.
+- Prompt design must keep the stable parts (profile, playbook extracts) as a cacheable prefix; prompt caching cuts repeated input cost by up to 90 percent.
+- The generation model is a one-line configuration, never hard-coded. Choice between models is a quality decision, settled by a side-by-side taste test in phase 2 (same input and profile, both models, founder judges voice fidelity).
+- Pricing must include a fair-use cap per tier (for example 100 runs/month) so one extreme user cannot distort costs.
+
 ## Success criteria
 
 - Concept phase (now): the founder can tap through the mockup on a phone and confirm the flow feels right: set up voice, paste a brain dump, receive per-platform drafts with an Instagram visual preview.
@@ -48,7 +63,7 @@ Entrepreneurs and solopreneurs who do not have time to maintain a social media p
 ## Phases
 
 1. **Concept and mockup (this phase).** Static clickable HTML mockup, no real AI. Deliverable: `mockup.html` in this folder.
-2. **Working prototype.** Real generation behind the mockup flow via Vercel /api/ route. Voice Profile kept in the browser (localStorage), nothing stored server-side. Consumes the platform playbooks (delivered ahead of this phase, in `playbooks/`) as generation context, and surfaces the relevant sourced rule to the user as the reason behind each format choice.
+2. **Working prototype.** Real generation behind the mockup flow via Vercel /api/ route. Voice Profile kept in the browser (localStorage), nothing stored server-side. Consumes the platform playbooks (delivered ahead of this phase, in `playbooks/`) as generation context, and surfaces the relevant sourced rule to the user as the reason behind each format choice. Includes the model taste test (see Cost architecture) and implements the cacheable-prefix prompt layout from day one.
 3. **Voice flywheel (agreed 2026-08-28, priority 1 after phase 2).** The tool learns from every edit: it compares each draft to what the user kept and marked as posted, and updates the Voice Profile accordingly ("always cuts adjectives", "never opens with a question"). Requires the autosaved history above; starts entirely in browser storage.
 4. **Voice and compliance lint (agreed 2026-08-28, priority 2).** Every draft is checked before display: against the Voice Profile (banned words, patterns the founder never uses, generic-AI tells), against the playbooks (officially demoted patterns such as engagement bait), and for claim safety (flags any factual claim the founder did not supply; UWG logic productized). Result shown as a calm per-draft check, not a score.
 5. **Carousel composer (agreed 2026-08-28, priority 3).** Extends the visual composer: composes full multi-slide carousels (LinkedIn document PDF, Instagram carousel PNGs) from the draft's key points plus the founder's photos and brand colors, in the browser, with export. Justified by playbook research: carousels are the highest-engagement underused format on both platforms.
